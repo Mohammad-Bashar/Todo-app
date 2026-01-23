@@ -2,6 +2,8 @@ import User from "../model/user.model.js";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { generateTokenAndSaveInCookies } from "../jwt/token.js";
+
+//validation 
 const userSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   username: z
@@ -12,6 +14,7 @@ const userSchema = z.object({
     .min(6, { message: "Password alteast 6 characters long" }),
 });
 
+//register user
 export const register = async (req, res) => {
   try {
     const { email, username, password } = req.body;
@@ -44,6 +47,7 @@ export const register = async (req, res) => {
   }
 };
 
+//login user
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -64,6 +68,7 @@ export const login = async (req, res) => {
   }
 };
 
+//logout user
 export const logout = (req, res) => {
   try {
     res.clearCookie("jwt", {

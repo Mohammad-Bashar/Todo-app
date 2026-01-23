@@ -5,6 +5,7 @@ import cors from "cors";
 import todoRoute from "../backend/routes/todo.route.js";
 import userRoute from "../backend/routes/user.route.js";
 import cookieParser from "cookie-parser";
+
 const app = express();
 dotenv.config();
 
@@ -24,7 +25,7 @@ app.use(
 
 
 
-// Database connection code
+// Database connection 
 try {
   await mongoose.connect(DB_URI);
   console.log("Connected to MongoDB");
