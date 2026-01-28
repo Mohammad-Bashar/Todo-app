@@ -7,31 +7,36 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
 
-  const handleRegister = async (e) => {
+ const handleRegister = async (e) => {
   e.preventDefault();
-
   try {
     const { data } = await axios.post(
       "https://todo-app-72z3.onrender.com/user/login",
       { email, password },
-      { withCredentials: true }
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
     );
 
+    console.log("LOGIN RESPONSE:", data);
+
+    // ✅ SAVE TOKEN WITH CORRECT KEY
     localStorage.setItem("token", data.token);
 
     toast.success(data.message || "User logged in successfully");
-
-    navigate("/", { replace: true }); // ✅ ONLY here
-
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.log(error);
-      toast.error(error?.response?.data?.errors || "User login failed");
-    }
-  };
+    navigateTo("/");
+    setEmail("");
+    setPassword("");
+  } catch (error) {
+    console.log(error);
+    toast.error(
+      error?.response?.data?.errors || "User login failed"
+    );
+  }
+};    
 
   return (
    <div>
