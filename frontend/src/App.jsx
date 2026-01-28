@@ -6,7 +6,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PageNotFound from "./components/PageNotFound";
 import { Toaster } from "react-hot-toast";
 function App() {
-  const token = localStorage.getItem("jwt");
+  const token = localStorage.getItem("token");
   return (
     <div>
       <Routes>
