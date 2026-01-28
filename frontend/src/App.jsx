@@ -16,11 +16,7 @@ function App() {
         />
        <Route
   path="/login"
-  element={
-    localStorage.getItem("token")
-      ? <Navigate to="/" />
-      : <Login />
-  }
+  element={<Login />}
 />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<PageNotFound />} />
