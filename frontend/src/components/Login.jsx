@@ -9,35 +9,21 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // ✅ If token already present, redirect immediately
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/", { replace: true });
-    }
-  }, [navigate]);
-
   const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        "https://todo-app-72z3.onrender.com/user/login",
-        { email, password },
-        {
-          withCredentials: true,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+  e.preventDefault();
 
-      console.log("LOGIN RESPONSE:", data);
+  try {
+    const { data } = await axios.post(
+      "https://todo-app-72z3.onrender.com/user/login",
+      { email, password },
+      { withCredentials: true }
+    );
 
-      // ✅ Save token
-      localStorage.setItem("token", data.token);
+    localStorage.setItem("token", data.token);
 
-      toast.success(data.message || "User logged in successfully");
+    toast.success(data.message || "User logged in successfully");
 
-      // ✅ Navigate to home after login
-      navigate("/", { replace: true });
+    navigate("/", { replace: true }); // ✅ ONLY here
 
       setEmail("");
       setPassword("");
