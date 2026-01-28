@@ -1,19 +1,19 @@
 import jwt from "jsonwebtoken";
-import User from "../model/user.model.js";
 
+export const generateTokenAndSaveInCookies = (userId, res) => {
+  const token = jwt.sign(
+    { userId },
+    process.env.JWT_SECRET_KEY,   // ✅ ONE SECRET NAME
+    { expiresIn: "10d" }
+  );
 
-export const generateTokenAndSaveInCookies = async (userId, res) => {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "10d",
-    // expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)  // 10 days expiry time
-  });
+  // OPTIONAL cookie (won’t break if blocked)
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,          // ✅ REQUIRED for HTTPS
+    sameSite: "None",      // ✅ REQUIRED cross-origin
     path: "/",
   });
 
-  await User.findByIdAndUpdate(userId, { token });
   return token;
 };
