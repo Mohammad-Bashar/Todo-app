@@ -27,7 +27,7 @@ function Login() {
     localStorage.setItem("token", data.token);
 
     toast.success(data.message || "User logged in successfully");
-    navigate("/", { replace: true });
+    navigateTo("/", { replace: true });
     setEmail("");
     setPassword("");
   } catch (error) {
