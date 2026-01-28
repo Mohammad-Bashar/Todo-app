@@ -7,36 +7,45 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
- const handleRegister = async (e) => {
-  e.preventDefault();
-  try {
-    const { data } = await axios.post(
-      "https://todo-app-72z3.onrender.com/user/login",
-      { email, password },
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+  // ✅ If token already present, redirect immediately
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
-    console.log("LOGIN RESPONSE:", data);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "https://todo-app-72z3.onrender.com/user/login",
+        { email, password },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-    // ✅ SAVE TOKEN WITH CORRECT KEY
-    localStorage.setItem("token", data.token);
+      console.log("LOGIN RESPONSE:", data);
 
-    toast.success(data.message || "User logged in successfully");
-    navigateTo("/");
-    setEmail("");
-    setPassword("");
-  } catch (error) {
-    console.log(error);
-    toast.error(
-      error?.response?.data?.errors || "User login failed"
-    );
-  }
-};
+      // ✅ Save token
+      localStorage.setItem("token", data.token);
+
+      toast.success(data.message || "User logged in successfully");
+
+      // ✅ Navigate to home after login
+      navigate("/", { replace: true });
+
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.errors || "User login failed");
+    }
+  };
 
   return (
    <div>
