@@ -27,7 +27,7 @@ function Login() {
     localStorage.setItem("token", data.token);
 
     toast.success(data.message || "User logged in successfully");
-    navigateTo("/");
+    navigate("/", { replace: true });
     setEmail("");
     setPassword("");
   } catch (error) {
@@ -72,7 +72,7 @@ function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Type Username"
+              placeholder="Type Password"
             />
           </div>
 
