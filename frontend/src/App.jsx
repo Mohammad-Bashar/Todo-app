@@ -1,23 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { Navigate, Route, Routes } from "react-router-dom";
 import PageNotFound from "./components/PageNotFound";
 import { Toaster } from "react-hot-toast";
+
 function App() {
-  //const token = localStorage.getItem("token");
+  // ✅ Use state for token so App re-renders after login/logout
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
   return (
     <div>
       <Routes>
-       <Route
+        {/* Home route */}
+        <Route
           path="/"
           element={
-            localStorage.getItem("token") ? <Home /> : <Navigate to="/login" replace />
+            token ? <Home setToken={setToken} /> : <Navigate to="/login" replace />
           }
         />
-       <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+
+        {/* Login route */}
+        <Route
+          path="/login"
+          element={
+            token ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Login setToken={setToken} />
+            )
+          }
+        />
+
+        {/* Signup route */}
+        <Route
+          path="/signup"
+          element={
+            token ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Signup setToken={setToken} />
+            )
+          }
+        />
+
+        {/* 404 */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <Toaster />
