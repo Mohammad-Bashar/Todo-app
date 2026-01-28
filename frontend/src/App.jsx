@@ -6,13 +6,15 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import PageNotFound from "./components/PageNotFound";
 import { Toaster } from "react-hot-toast";
 function App() {
-  const token = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
   return (
     <div>
       <Routes>
-        <Route
+       <Route
           path="/"
-          element={token ? <Home /> : <Navigate to={"/login"} />}
+          element={
+            localStorage.getItem("token") ? <Home /> : <Navigate to="/login" replace />
+          }
         />
        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
