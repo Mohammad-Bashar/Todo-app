@@ -103,7 +103,7 @@ function Home() {
       });
       toast.success("User logged out successfully");
       navigateTo("/login");
-      localStorage.removeItem("jwt");
+      localStorage.removeItem("token");
     } catch (error) {
       toast.error("Error logging out");
     }
