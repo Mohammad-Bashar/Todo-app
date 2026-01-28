@@ -29,7 +29,7 @@ function Signup() {
       );
       console.log(data);
       toast.success(data.message || "User registered successfully");
-      localStorage.setItem("jwt", data.token);
+      localStorage.setItem("token", data.token);
       navigateTo("/login");
       setUserName("");
       setEmail("");
