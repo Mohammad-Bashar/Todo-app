@@ -14,10 +14,7 @@ function App() {
           path="/"
           element={token ? <Home /> : <Navigate to={"/login"} />}
         />
-       <Route
-  path="/login"
-  element={token?<Navigate to={"/"}/>:<Login />}
-/>
+       <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
