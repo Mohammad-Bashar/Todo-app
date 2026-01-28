@@ -14,10 +14,11 @@ function Home() {
     const fetchtodos = async () => {
       try {
         setLoading(true);
+        const token = localStorage.getItem("token");
         const response = await axios.get("https://todo-app-72z3.onrender.com/todo/fetch", {
           withCredentials: true,
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
         console.log(response.data.todos);
@@ -33,26 +34,32 @@ function Home() {
   }, []);
 
   //create new task
-  const todoCreate = async () => {
-    if (!newTodo) return;
-    try {
-      const response = await axios.post(
-        "https://todo-app-72z3.onrender.com/todo/create",
-        {
-          text: newTodo,
-          completed: false,
+ const todoCreate = async () => {
+  if (!newTodo) return;
+
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(
+      "https://todo-app-72z3.onrender.com/todo/create",
+      {
+        text: newTodo,
+        completed: false,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response.data.newTodo);
-      setTodos([...todos, response.data.newTodo]);
-      setNewTodo("");
-    } catch (error) {
-      setError("Failed to create todo");
-    }
-  };
+      }
+    );
+    console.log(response.data.newTodo);
+    setTodos([...todos, response.data.newTodo]);
+    setNewTodo("");
+  } catch (error) {
+    console.error(error);
+    setError("Failed to create todo");
+  }
+};
+
 
   //update the task
   const todoStatus = async (id) => {
