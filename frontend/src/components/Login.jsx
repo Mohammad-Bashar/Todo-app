@@ -17,7 +17,7 @@ function Login() {
     }
   }, [navigate]);
 
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
